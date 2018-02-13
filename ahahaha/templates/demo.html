@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
+	<title>Document</title>
+	{% load static %}
+	<link rel="stylesheet" href="{% static 'css/bird.css' %}" />
+	<link rel="stylesheet" href="{% static 'css/animation.css' %}" />
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script>
+	$(function () {
+        $('#send_message').click(function () {
+            var socket = new WebSocket("ws://" + window.location.host + "/echo_once");
+            socket.onopen = function () {
+                console.log('WebSocket open');//成功连接上Websocket
+                socket.send($('#message').val());//发送数据到服务端
+            };
+            socket.onmessage = function (e) {
+                console.log('message: ' + e.data);//打印服务端返回的数据
+                $('#messagecontainer').prepend('<p>' + e.data + '</p>');
+            };
+        });
+    });
+	</script>
+</head>
+<body>
+<input type="text" id="message" value="Hello, World!"/>
+<button type="button" id="send_message">发送 message</button>
+<h1>Received Messages</h1>
+<div id="messagecontainer">
+	<div class="container">
+		<div class="startPage">
+			<div class="head">
+				<img src="{% static 'images/head.jpg' %}" alt="" />
+				<span class="bird1"></span>
+			</div>
+			<div class="btnwrap">
+				<button class="startBtn"></button>
+				<button class="submitBtn"></button>
+			</div>
+		</div>
+		<div class="slidewrap"></div>
+		<div class="gamewrap">
+			<span class="flybird downBird"></span>
+			<ul class="colwrap">
+				<!--<li class="colcon">
+					<div class="coltop">
+						<span class="tophead"></span>
+					</div>
+					<div class="colbot">
+						<span class="bothead"></span>
+					</div>
+				</li>-->
+			</ul>
+			<div class="scorewrap">
+				<img src="{% static 'images/0.jpg' %}" alt="">
+				<img src="{% static 'images/0.jpg' %}" alt="">
+				
+
+				
+			</div>
+		</div>
+		
+		<div class="over">
+			<span></span>
+			<a class="ok" href=""></a>
+		</div>	
+		
+	</div>
+</body>
+
+
+</html>
